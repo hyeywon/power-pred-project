@@ -194,3 +194,6 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,gradle,windows
+*.xml
+*.iml
+.DS_Store
