@@ -1,4 +1,4 @@
-.home {
+.register {
     background-color: #ffffff;
     display: flex;
     flex-direction: row;
@@ -6,20 +6,20 @@
     width: 100%;
   }
   
-  .home .overlap-wrapper {
+  .register .overlap-wrapper {
     background-color: #ffffff;
     height: 1117px;
     overflow: hidden;
     width: 1728px;
   }
   
-  .home .overlap {
+  .register .overlap {
     height: 1117px;
     position: relative;
     width: 1732px;
   }
   
-  .home .overlap-group {
+  .register .overlap-group {
     height: 1117px;
     left: 0;
     position: absolute;
@@ -27,7 +27,7 @@
     width: 1732px;
   }
   
-  .home .topmenu {
+  .register .topmenu {
     height: 101px;
     left: 0;
     position: absolute;
@@ -35,14 +35,14 @@
     width: 1732px;
   }
   
-  .home .div {
+  .register .div {
     background-color: #e8f0fe;
     height: 101px;
     position: relative;
     width: 1728px;
   }
   
-  .home .text-wrapper {
+  .register .text-wrapper {
     color: #4e5360;
     font-family: "Helvetica Neue-Regular", Helvetica;
     font-size: 15px;
@@ -57,7 +57,7 @@
     width: 133px;
   }
   
-  .home .logout-button {
+  .register .logout-button {
     color: #4e5360;
     font-family: "Helvetica Neue-Regular", Helvetica;
     font-size: 15px;
@@ -72,7 +72,7 @@
     width: 85px;
   }
   
-  .home .topmenu-line {
+  .register .topmenu-line {
     height: 45px;
     left: 1496px;
     object-fit: cover;
@@ -81,7 +81,7 @@
     width: 1px;
   }
   
-  .home .user-img {
+  .register .user-img {
     height: 40px;
     left: 1650px;
     position: absolute;
@@ -89,7 +89,7 @@
     width: 40px;
   }
   
-  .home .sidemenu {
+  .register .sidemenu {
     height: 1117px;
     left: 0;
     position: absolute;
@@ -97,14 +97,14 @@
     width: 253px;
   }
   
-  .home .overlap-2 {
+  .register .overlap-2 {
     background-color: #3a62d5;
     height: 1117px;
     position: relative;
     width: 251px;
   }
   
-  .home .home-button {
+  .register .home-button {
     color: #ffffff;
     font-family: "Helvetica Neue-Bold", Helvetica;
     font-size: 20px;
@@ -119,7 +119,7 @@
     width: 234px;
   }
   
-  .home .sidemenu-line {
+  .register .sidemenu-line {
     height: 1px;
     left: 26px;
     object-fit: cover;
@@ -128,7 +128,7 @@
     width: 200px;
   }
   
-  .home .reg-button {
+  .register .reg-button {
     height: 20px;
     left: 55px;
     position: absolute;
@@ -136,7 +136,7 @@
     width: 144px;
   }
   
-  .home .text-wrapper-2 {
+  .register .text-wrapper-2 {
     color: #ffffff;
     font-family: "Helvetica Neue-Medium", Helvetica;
     font-size: 17px;
@@ -150,7 +150,7 @@
     width: 127px;
   }
   
-  .home .img {
+  .register .img {
     height: 7px;
     left: 115px;
     object-fit: cover;
@@ -159,7 +159,7 @@
     width: 16px;
   }
   
-  .home .ret-button {
+  .register .ret-button {
     height: 20px;
     left: 55px;
     position: absolute;
@@ -167,165 +167,150 @@
     width: 144px;
   }
   
-  .home .home-title {
+  .register .title {
     color: #000000;
     font-family: "Helvetica Neue-Bold", Helvetica;
     font-size: 30px;
     font-weight: 700;
-    left: 590px;
+    left: 772px;
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
     text-align: center;
-    top: 250px;
-    width: 811px;
-  }
-  
-  .home .overlap-3 {
-    height: 430px;
-    left: 735px;
-    position: absolute;
-    top: 364px;
-    width: 528px;
-  }
-  
-  .home .data-resource {
-    height: 430px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 528px;
-  }
-  
-  .home .data-resource-title {
-    color: #000000;
-    font-family: "Helvetica Neue-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 19px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 0;
+    top: 318px;
     white-space: nowrap;
-    width: 209px;
+    width: 435px;
   }
   
-  .home .overlap-4 {
-    height: 390px;
-    left: 0;
+  .register .building-input-form {
+    height: 62px;
+    left: 638px;
     position: absolute;
-    top: 40px;
-    width: 287px;
+    top: 405px;
+    width: 586px;
   }
   
-  .home .data-resource-back {
+  .register .building-input {
     background-color: #e8f0fe;
     border: 1px solid;
-    border-color: #afb6c9;
-    border-radius: 10px;
-    height: 390px;
-    left: 0;
+    border-color: #d2d3e2;
+    border-radius: 30px;
+    height: 62px;
+    left: 119px;
     position: absolute;
     top: 0;
-    width: 248px;
+    width: 465px;
+    font-family: "Helvetica Neue-Bold", Helvetica;
+    font-size: 20px;
+    padding-left: 30px;
   }
   
-  .home .data-resource-text {
+  .register .text-wrapper-3 {
     color: #000000;
     font-family: "Helvetica Neue-Medium", Helvetica;
     font-size: 20px;
-    font-weight: 400;
-    left: 35px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 23px;
-    width: 177px;
-  }
-  
-  .home .span {
     font-weight: 500;
-  }
-  
-  .home .text-wrapper-3 {
-    font-family: "Helvetica Neue-Bold", Helvetica;
-    font-weight: 700;
-  }
-  
-  .home .data-resource-line {
-    height: 1px;
-    left: 250px;
-    object-fit: cover;
-    position: absolute;
-    top: 126px;
-    width: 40px;
-  }
-  
-  .home .pred-data-text-wrapper {
-    background-color: #3a62d5;
-    border-radius: 117.5px;
-    height: 235px;
-    left: 287px;
-    position: absolute;
-    top: 49px;
-    width: 235px;
-  }
-  
-  .home .pred-data-text {
-    color: #ffffff;
-    font-family: "Helvetica Neue-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
-    left: 29px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    text-align: center;
-    top: 103px;
-    white-space: nowrap;
-    width: 178px;
-  }
-  
-  .home .reg-big-button {
-    background-color: #3a62d5;
-    border-radius: 30px;
-    height: 65px;
-    left: 287px;
-    position: absolute;
-    top: 365px;
-    width: 235px;
-  }
-  
-  .home .reg-big-button-texts {
-    height: 30px;
-    left: 58px;
-    position: relative;
-    top: 18px;
-    width: 121px;
-  }
-  
-  .home .reg-big-button-text {
-    color: #ffffff;
-    font-family: "Helvetica Neue-Bold", Helvetica;
-    font-size: 25px;
-    font-weight: 700;
     left: 0;
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
-    top: 0;
+    text-align: right;
+    top: 19px;
     white-space: nowrap;
-    width: 93px;
+    width: 95px;
   }
   
-  .home .reg-big-button-arrow {
-    height: 15px;
-    left: 93px;
+  .register .file-input-form {
+    height: 186px;
+    left: 638px;
     position: absolute;
-    top: 8px;
-    width: 26px;
+    top: 495px;
+    width: 586px;
+  }
+  
+  .register .file-input {
+    background-color: #e8f0fe;
+    border: 1px solid;
+    border-color: #d2d3e2;
+    border-radius: 30px;
+    height: 186px;
+    left: 119px;
+    position: absolute;
+    top: 0;
+    width: 465px;
+    font-family: "Helvetica Neue-Bold", Helvetica;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-top: 20px;
+  }
+  
+  .register .file-button {
+    height: 40px;
+    left: 1260px;
+    position: absolute;
+    top: 495px;
+    width: 102px;
+  }
+
+  .register .file-delete-button {
+    height: 40px;
+    left: 1260px;
+    position: absolute;
+    top: 550px;
+    width: 102px;
+  }
+  
+  .register .file-button-text-wrapper {
+    background-color: #3a62d5;
+    border-radius: 20px;
+    height: 40px;
+    position: relative;
+    width: 100px;
+  }
+  
+  .register .file-button-text {
+    color: #ffffff;
+    font-family: "Helvetica Neue-Medium", Helvetica;
+    font-size: 15px;
+    font-weight: 500;
+    left: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 11px;
+    white-space: nowrap;
+    width: 60px;
+  }
+  
+  .register .submit-button {
+    height: 54px;
+    left: 860px;
+    position: absolute;
+    top: 745px;
+    width: 269px;
+  }
+  
+  .register .submit-button-text-wrapper {
+    background-color: #3a62d5;
+    border-radius: 20px;
+    height: 54px;
+    position: relative;
+    width: 267px;
+  }
+  
+  .register .submit-button-text {
+    color: #ffffff;
+    font-family: "Helvetica Neue-Medium", Helvetica;
+    font-size: 15px;
+    font-weight: 500;
+    left: 53px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 18px;
+    white-space: nowrap;
+    width: 161px;
   }
   

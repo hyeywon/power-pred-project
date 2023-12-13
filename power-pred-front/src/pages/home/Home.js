@@ -34,7 +34,7 @@ export const Home = () => {
     }
 
     const handleLogout = () => {
-        /*
+        
         fetch('http://backend-url/logout', {
           method: 'POST',
           headers: {
@@ -54,9 +54,7 @@ export const Home = () => {
           console.error('Error:', error);
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         });
-        */
-
-        navigate("/");
+        
       };
     
 
