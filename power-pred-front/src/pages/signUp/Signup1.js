@@ -6,10 +6,10 @@ const Signup1 = () => {
     const navigate = useNavigate();
 
     const adminStatus = () => {
-        navigate("/signup2", { state: { adminValue: 1 } });
+        navigate("/signup2", { state: { adminValue: true } });
     }
     const userStatus = () => {
-        navigate("/signup2", { state: { adminValue: 2 } });
+        navigate("/signup2", { state: { adminValue: false } });
     }
 
     return (
