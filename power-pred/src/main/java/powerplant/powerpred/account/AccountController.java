@@ -15,25 +15,25 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @PostMapping("/signUp")
+    @PostMapping("/sign-up")
     public ResponseEntity<Account> signUp(@RequestBody Account account) {
-
-        log.info("account: " + account);
+        log.info("SIGN UP: " + account.toString());
         if (accountService.signUp(account).equals(account.getId())) {
             return ResponseEntity.ok(account);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(account);
     }
 
-    @PostMapping("/signIn")
+    @PostMapping("/sign-in")
     public ResponseEntity<Account> signIn(@RequestBody Account account) {
+        log.info("SIGN IN: " + account.toString());
         if (accountService.signIn(account).equals(account.getId())) {
             return ResponseEntity.ok(account);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(account);
     }
 
-    @PostMapping("/signOut")
+    @PostMapping("/sign-out")
     public ResponseEntity<Void> signOut() {
         accountService.signOut();
         return ResponseEntity.ok().build();
