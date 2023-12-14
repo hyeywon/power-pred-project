@@ -17,5 +17,5 @@ public class Account {
     @Id
     private String id;
     private String pw;
-    private boolean isAdmin;
+    private Boolean isAdmin;
 }
