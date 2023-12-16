@@ -34,6 +34,11 @@ public class AccountService {
     /**
      * 로그인
      */
+    public Account checkAdmin(String id, String pw) {
+        boolean isAdmin = accountRepository.findById(id).get().getIsAdmin();
+        return new Account(id, pw, isAdmin);
+    }
+
     public String signIn(Account account) {
         try {
             validateAccount(account);

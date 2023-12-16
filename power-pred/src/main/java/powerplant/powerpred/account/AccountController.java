@@ -25,7 +25,9 @@ public class AccountController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<Account> signIn(@RequestBody Account account) {
+    public ResponseEntity<Account> signIn(@RequestBody String id, @RequestBody String pw) {
+        Account account = accountService.checkAdmin(id, pw);
+
         log.info("SIGN IN: " + account.toString());
         if (accountService.signIn(account).equals(account.getId())) {
             return ResponseEntity.ok(account);
