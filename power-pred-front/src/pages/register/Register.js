@@ -48,7 +48,7 @@ export const Register = () => {
 
     const handleLogout = () => {
 
-        axios.post('15.164.130.210/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out')
         .then(response => {
             if (response.status === 200) {
                 navigate("/");
@@ -84,7 +84,7 @@ export const Register = () => {
         formData.append('buildingName', bname);
         formData.append('csv', file);
       
-        axios.post('15.164.130.210/upload', formData)
+        axios.post('http://15.164.130.210:8080/upload', formData)
         .then(response => {
           if (response.data.success) {
             alert('데이터가 성공적으로 업로드되었습니다.');

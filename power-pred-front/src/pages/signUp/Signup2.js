@@ -33,7 +33,7 @@ export const Signup2 = () => {
         };
       
         // 백엔드에 데이터 전송
-        axios.post('15.164.130.210/sign-up', data)
+        axios.post('http://15.164.130.210:8080/sign-up', data)
         .then(response => {
           if (response.status === 200) {
             alert('회원가입이 완료되었습니다.');

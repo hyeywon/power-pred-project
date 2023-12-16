@@ -14,23 +14,17 @@ export const Login = () => {
       pw: pw
     };
   
-    axios.post('15.164.130.210/sign-in', data)
+    axios.post('http://15.164.130.210:8080/sign-in', data)
     .then(response => {
       if (response.status === 200) {
+        navigate("/home", { state: { id: response.data.id, isAdmin: response.data.isAdmin }});
         return response.data;
       } else {
         throw new Error('Fail to login');
       }
     })
-    .then(data => {
-      if (data.success) {
-        navigate("/home", { state: { id: data.id, isAdmin: data.isAdmin }});
-      } else {
-        throw new Error('Fail to login');
-      }
-    })
     .catch((error) => {
-      console.error('Error:', error);
+      alert('Error:', error);
       alert('로그인에 실패했습니다. 다시 시도해주세요.');
     });
   };

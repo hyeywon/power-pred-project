@@ -18,9 +18,11 @@ export const Home = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.state && location.state.id && location.state.isAdmin) {
+        if (location.state) {
             setId(location.state.id);
             setIsAdmin(location.state.isAdmin);
+            console.log(id);
+            console.log(isAdmin);
         }
     }, [location.state]);
 
@@ -43,7 +45,7 @@ export const Home = () => {
 
     const handleLogout = () => {
 
-        axios.post('15.164.130.210/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out')
         .then(response => {
             if (response.status === 200) {
                 navigate("/");

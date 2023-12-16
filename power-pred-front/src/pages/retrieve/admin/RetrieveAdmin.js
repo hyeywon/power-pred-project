@@ -26,7 +26,7 @@ export const RetrieveAdmin = () => {
     }, [location.state]);
 
     useEffect(() => {
-        axios.get('15.164.130.210/view/admin')
+        axios.get('http://15.164.130.210:8080/view/admin')
         .then(response => {
           if (response.status === 200) {
             setTrainData(response.data.trainData);
@@ -60,7 +60,7 @@ export const RetrieveAdmin = () => {
 
     const handleLogout = () => {
 
-        axios.post('15.164.130.210/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out')
         .then(response => {
             if (response.status === 200) {
                 navigate("/");

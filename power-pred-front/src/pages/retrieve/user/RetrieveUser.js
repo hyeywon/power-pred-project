@@ -37,7 +37,7 @@ export const RetrieveUser = () => {
     const location = useLocation();
 
     useEffect(() => {
-        axios.get('15.164.130.210/view/user')
+        axios.get('http://15.164.130.210:8080/view/user')
         .then(response => {
           if (response.status === 200) {
             const data = response.data;
@@ -80,7 +80,7 @@ export const RetrieveUser = () => {
 
     const handleLogout = () => {
 
-        axios.post('15.164.130.210/sign-out')
+        axios.post('localhost:8080/sign-out')
         .then(response => {
             if (response.status === 200) {
                 navigate("/");
