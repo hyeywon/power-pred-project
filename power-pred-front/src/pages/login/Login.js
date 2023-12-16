@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import "./Login.css";
 
 export const Login = () => {
@@ -12,25 +13,25 @@ export const Login = () => {
       id: id,
       pw: pw
     };
-
-    fetch('http://backend-url', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) { // 백엔드에서 success 필드를 전달한다고 가정
-        navigate("/home", { state : { id: id } });
+  
+    axios.post('15.164.130.210/sign-in', data)
+    .then(response => {
+      if (response.status === 200) {
+        return response.data;
       } else {
-        alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        throw new Error('Fail to login');
+      }
+    })
+    .then(data => {
+      if (data.success) {
+        navigate("/home", { state: { id: data.id, isAdmin: data.isAdmin }});
+      } else {
+        throw new Error('Fail to login');
       }
     })
     .catch((error) => {
       console.error('Error:', error);
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      alert('로그인에 실패했습니다. 다시 시도해주세요.');
     });
   };
 

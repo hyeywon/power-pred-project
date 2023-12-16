@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./Register.css";
 
 import ButtonArrow from '../../img/button-arrow.js';
@@ -10,6 +11,8 @@ import UserImg from "../../img/user-img.js";
 export const Register = () => {
 
     const [id, setId] = useState("");
+    const [isAdmin, setIsAdmin] = useState(false);
+    
     const [bname, setBname] = useState("");
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
@@ -19,43 +22,43 @@ export const Register = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.state && location.state.id) {
+        if (location.state && location.state.id && location.state.isAdmin) {
             setId(location.state.id);
+            setIsAdmin(location.state.isAdmin);
         }
     }, [location.state]);
 
+
     const gotoRegister = () => {
-        navigate("/register", { state: { id : id }});
+        navigate("/register", { state: { id : id, isAdmin : isAdmin }});
     }
 
     const gotoRetrieve = () => {
-        navigate("/retrieve", { state: { id : id }});
+        if(isAdmin === true) {
+            navigate("/retrieve/admin", { state: { id : id, isAdmin : isAdmin }});
+        }
+        else {
+            navigate("/retrieve/user", { state: { id : id, isAdmin : isAdmin }});
+        }
     }
 
     const gotoHome = () => {
-        navigate("/home", { state: { id : id }});
+        navigate("/home", { state: { id : id, isAdmin : isAdmin }});
     }
 
     const handleLogout = () => {
-        
-        fetch('http://backend-url/logout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: id }), // id 값을 body에 추가
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            navigate("/");
-          } else {
-            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
-          }
+
+        axios.post('15.164.130.210/sign-out')
+        .then(response => {
+            if (response.status === 200) {
+                navigate("/");
+            } else {
+                throw new Error('Fail to logout');
+            }
         })
         .catch((error) => {
-          console.error('Error:', error);
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+            console.error('Error:', error);
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
         });
         
     };
@@ -78,26 +81,21 @@ export const Register = () => {
 
     const handleUpload = () => {
         const formData = new FormData();
-        formData.append('id', id);
         formData.append('buildingName', bname);
-        formData.append('file', file);
-
-        fetch('http://backend-url/upload', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('데이터가 성공적으로 업로드되었습니다.');
-                navigate("/register")
-            } else {
-                alert('데이터 업로드에 실패했습니다. 다시 시도해주세요.');
-            }
+        formData.append('csv', file);
+      
+        axios.post('15.164.130.210/upload', formData)
+        .then(response => {
+          if (response.data.success) {
+            alert('데이터가 성공적으로 업로드되었습니다.');
+            navigate("/register")
+          } else {
+            alert('데이터 업로드에 실패했습니다. 다시 시도해주세요.');
+          }
         })
         .catch((error) => {
-            console.error('Error:', error);
-            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          console.error('Error:', error);
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
         });
     };
 

@@ -6,6 +6,8 @@ import Signup2 from './pages/signUp/Signup2';
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Register from "./pages/register/Register";
+import RetrieveAdmin from "./pages/retrieve/admin/RetrieveAdmin";
+import RetrieveUser from "./pages/retrieve/user/RetrieveUser";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/signup2" element={<Signup2 />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/retrieve/admin" element={<RetrieveAdmin />} />
+        <Route path="/retrieve/user" element={<RetrieveUser />} />
       </Routes>
     </div>
   );

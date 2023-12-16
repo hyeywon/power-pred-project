@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import "./Home.css";
+import "./RetrieveAdmin.css";
 
-import ButtonArrow from '../../img/button-arrow.js';
-import ResourceLine from '../../img/data-resource-line.js';
-import TopmenuLine from '../../img/topmenu-line.js';
-import SidemenuLine from '../../img/sidemenu-line.js';
-import UserImg from "../../img/user-img.js";
-import BigButtonArrow  from "../../img/big-button-arrow";
+import ButtonArrow from '../../../img/button-arrow.js';
+import TopmenuLine from '../../../img/topmenu-line.js';
+import SidemenuLine from '../../../img/sidemenu-line.js';
+import UserImg from "../../../img/user-img.js";
 
-export const Home = () => {
-
+export const RetrieveAdmin = () => {
     const [id, setId] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState("");
+    const [trainData, setTrainData] = useState([]);
+    const [predictions, setPredictions] = useState([]);
+
+    const fileInput = useRef();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -23,6 +24,22 @@ export const Home = () => {
             setIsAdmin(location.state.isAdmin);
         }
     }, [location.state]);
+
+    useEffect(() => {
+        axios.get('15.164.130.210/view/admin')
+        .then(response => {
+          if (response.status === 200) {
+            setTrainData(response.data.trainData);
+            setPredictions(response.data.predictions);
+          } else {
+            throw new Error('Failed to load data');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('데이터를 불러오는데 실패했습니다.');
+        });
+      }, []);
 
     const gotoRegister = () => {
         navigate("/register", { state: { id : id }});
@@ -57,10 +74,19 @@ export const Home = () => {
         });
         
     };
-    
+
+    const downloadData = () => {
+        trainData.forEach(file => {
+            // 다운로드 링크 생성
+            const link = document.createElement('a');
+            link.href = file.url;
+            link.download = file.name;
+            link.click();
+          });
+    }
 
     return (
-        <div className="home">
+        <div className="retrieve-admin">
         <div className="overlap-wrapper">
             <div className="overlap">
             <div className="overlap-group">
@@ -87,50 +113,26 @@ export const Home = () => {
                 </div>
                 </div>
             </div>
-            <p className="home-title">건물 데이터로 내 건물의 전기 사용량과 전기세를 예측해 보세요.</p>
-            <div className="overlap-3">
-                <div className="data-resource">
-                <div className="data-resource-title">필요한 건물 데이터</div>
-                <div className="overlap-4">
-                    <div className="data-resource-back" />
-                    <p className="data-resource-text">
-                    <span className="span">
-                        날짜 및 시간
-                        <br />
-                        <br />
-                    </span>
-                    <span className="text-wrapper-3">
-                        전력 사용량
-                        <br />
-                    </span>
-                    <span className="span">
-                        <br />
-                        기온
-                        <br />
-                        <br />
-                        풍속
-                        <br />
-                        <br />
-                        습도
-                        <br />
-                        <br />
-                        강수량
-                        <br />
-                        <br />
-                        일조
-                    </span>
-                    </p>
-                    <ResourceLine className="data-resource-line" />
+            <div className="upload-title">내가 업로드한 데이터 조회</div>
+            <div className="download-title">예측이 필요한 데이터 조회</div>
+            <div className="upload-file-table">
+                {predictions.map((prediction, index) => (
+                    <p key={index}>{prediction}</p>
+                ))}
+            </div>
+            <div className="download-file-table">
+            {trainData.map(file => (
+                <p key={file.id}>{file.name}</p>
+            ))}
+            </div>
+            <div className="download-button" onClick={downloadData}>
+                <div className="div-wrapper">
+                <div className="text-wrapper-3">데이터 다운로드</div>
                 </div>
-                <div className="pred-data-text-wrapper">
-                    <div className="pred-data-text">예측 데이터</div>
-                </div>
-                </div>
-                <div className="reg-big-button" onClick={gotoRegister}>
-                <div className="reg-big-button-texts">
-                    <div className="reg-big-button-text">입력하기</div>
-                    <BigButtonArrow className="reg-big-button-arrow"/>
-                </div>
+            </div>
+            <div className="upload-button" onClick={gotoRegister}>
+                <div className="div-wrapper">
+                <div className="text-wrapper-3">데이터 업로드</div>
                 </div>
             </div>
             </div>
@@ -139,4 +141,4 @@ export const Home = () => {
     );
 };
 
-export default Home;
+export default RetrieveAdmin;

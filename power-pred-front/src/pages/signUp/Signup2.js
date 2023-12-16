@@ -1,58 +1,55 @@
 import React, {useState, useEffect} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import "./Signup2.css";
 
 export const Signup2 = () => {
     const [userInfo, setuserInfo] = useState({
-        admin: false,
+        isAdmin: false,
         id: "",
         pw: ""
     });
-    const {admin, id, pw} = userInfo;
+    const {isAdmin, id, pw} = userInfo;
     const location = useLocation();
     const navigate = useNavigate();
 
     // 이전 페이지에서 받아온 admin 값을 userInfo에 설정
     useEffect(() => {
-        if (location.state && location.state.adminValue) {
-            setuserInfo(prevState => ({ ...prevState, admin: location.state.adminValue }));
+        if (location.state && location.state.isAdmin) {
+            setuserInfo(prevState => ({ ...prevState, isAdmin: location.state.isAdmin }));
         }
     }, [location.state]);
 
     const submitAccount = () => {
         if(!(userInfo.id && userInfo.pw)) {
-            alert('아이디와 비밀번호를 모두 입력해주세요.');
+          alert('아이디와 비밀번호를 모두 입력해주세요.');
         }
-
+      
         // 백엔드에 전송할 데이터
         const data = {
-            admin: userInfo.admin,
-            id: userInfo.id,
-            pw: userInfo.pw
+          isAdmin: userInfo.isAdmin,
+          id: userInfo.id,
+          pw: userInfo.pw
         };
-
+      
         // 백엔드에 데이터 전송
-        fetch('http://backend-url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) { // 백엔드에서 success 필드를 전달
-                alert('회원가입이 완료되었습니다.');
-                navigate("/");
-            } else {
-                alert('회원가입에 실패하였습니다. 다시 시도해주세요.');
-                navigate("/signup1");
-            }
+        axios.post('15.164.130.210/sign-up', data)
+        .then(response => {
+          if (response.status === 200) {
+            alert('회원가입이 완료되었습니다.');
+            navigate("/");
+          } else if (response.status === 400) {
+            alert('중복된 아이디로 인해 회원가입에 실패하였습니다.');
+            navigate("/signup2");
+          } else {
+            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+            navigate("/signup1");
+          }
         })
         .catch((error) => {
-            console.error('Error:', error);
+          console.error('Error:', error);
         });
-    }
+      };
 
     const goToLogin = () => {
         navigate("/");
