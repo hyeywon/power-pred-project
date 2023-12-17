@@ -22,7 +22,7 @@ export const Register = () => {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.state && location.state.id && location.state.isAdmin) {
+        if (location.state) {
             setId(location.state.id);
             setIsAdmin(location.state.isAdmin);
         }

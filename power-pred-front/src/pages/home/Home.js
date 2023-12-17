@@ -21,8 +21,6 @@ export const Home = () => {
         if (location.state) {
             setId(location.state.id);
             setIsAdmin(location.state.isAdmin);
-            console.log(id);
-            console.log(isAdmin);
         }
     }, [location.state]);
 

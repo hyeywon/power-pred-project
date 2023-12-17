@@ -15,7 +15,7 @@ export const Signup2 = () => {
 
     // 이전 페이지에서 받아온 admin 값을 userInfo에 설정
     useEffect(() => {
-        if (location.state && location.state.isAdmin) {
+        if (location.state) {
             setuserInfo(prevState => ({ ...prevState, isAdmin: location.state.isAdmin }));
         }
     }, [location.state]);
