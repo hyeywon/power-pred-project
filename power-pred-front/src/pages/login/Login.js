@@ -14,11 +14,12 @@ export const Login = () => {
       pw: pw
     };
   
-    axios.post('http://15.164.130.210:8080/sign-in', data)
+    axios.post('http://15.164.130.210:8080/sign-in', data,{
+      withCredentials: true  // 쿠키 포함
+    })
     .then(response => {
       if (response.status === 200) {
         navigate("/home", { state: { id: response.data.id, isAdmin: response.data.isAdmin }});
-        return response.data;
       } else {
         throw new Error('Fail to login');
       }

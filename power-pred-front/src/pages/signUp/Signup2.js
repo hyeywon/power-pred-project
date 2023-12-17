@@ -24,7 +24,7 @@ export const Signup2 = () => {
         if(!(userInfo.id && userInfo.pw)) {
           alert('아이디와 비밀번호를 모두 입력해주세요.');
         }
-      
+    
         // 백엔드에 전송할 데이터
         const data = {
           isAdmin: userInfo.isAdmin,

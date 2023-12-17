@@ -26,7 +26,11 @@ export const RetrieveAdmin = () => {
     }, [location.state]);
 
     useEffect(() => {
-        axios.get('http://15.164.130.210:8080/view/admin')
+        axios.post('http://15.164.130.210:8080/view/admin', {
+            id : location.state.id,
+        }, {
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
           if (response.status === 200) {
             setTrainData(response.data.trainData);
@@ -42,7 +46,7 @@ export const RetrieveAdmin = () => {
       }, []);
 
     const gotoRegister = () => {
-        navigate("/register", { state: { id : id }});
+        navigate("/register", { state: { id : id, isAdmin : isAdmin }});
     }
 
     const gotoRetrieve = () => {
@@ -55,12 +59,14 @@ export const RetrieveAdmin = () => {
     }
 
     const gotoHome = () => {
-        navigate("/home", { state: { id : id }});
+        navigate("/home", { state: { id : id, isAdmin : isAdmin }});
     }
 
     const handleLogout = () => {
 
-        axios.post('http://15.164.130.210:8080/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out', {
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
             if (response.status === 200) {
                 navigate("/");
@@ -92,7 +98,7 @@ export const RetrieveAdmin = () => {
             <div className="overlap-group">
                 <div className="topmenu">
                 <div className="div">
-                    <div className="text-wrapper">{id}님</div>
+                    <div className="text-wrapper">{id + " "}님</div>
                     <div className="logout-button" onClick={handleLogout}>로그아웃</div>
                     <TopmenuLine className="topmenu-line" />
                     <UserImg className="user-img" />

@@ -48,7 +48,9 @@ export const Register = () => {
 
     const handleLogout = () => {
 
-        axios.post('http://15.164.130.210:8080/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out',{
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
             if (response.status === 200) {
                 navigate("/");
@@ -80,13 +82,26 @@ export const Register = () => {
     };
 
     const handleUpload = () => {
+        const data = {
+            buildingName: bname,
+            id: id, 
+            isAdmin: isAdmin
+        };
+    
         const formData = new FormData();
-        formData.append('buildingName', bname);
+    
+        formData.append(
+            'value',
+            new Blob([JSON.stringify(data)], { type: 'application/json' })
+        );
+    
         formData.append('csv', file);
       
-        axios.post('http://15.164.130.210:8080/upload', formData)
+        axios.post('http://15.164.130.210:8080/upload', formData, {
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
-          if (response.data.success) {
+          if (response.status === 200) {
             alert('데이터가 성공적으로 업로드되었습니다.');
             navigate("/register")
           } else {
@@ -106,7 +121,7 @@ export const Register = () => {
             <div className="overlap-group">
                 <div className="topmenu">
                 <div className="div">
-                    <div className="text-wrapper">{id}님</div>
+                    <div className="text-wrapper">{id + " "}님</div>
                     <div className="logout-button" onClick={handleLogout}>로그아웃</div>
                     <TopmenuLine className="topmenu-line" />
                     <UserImg className="user-img" />

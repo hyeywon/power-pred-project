@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { Chart, CategoryScale, LineController, LineElement, PointElement, LinearScale } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import "./RetrieveUser.css";
 
@@ -10,24 +11,50 @@ import SidemenuLine from '../../../img/sidemenu-line.js';
 import UserImg from "../../../img/user-img.js";
 
 export const RetrieveUser = () => {
+    Chart.register(LineController, CategoryScale, LineElement, PointElement, LinearScale);
+    const option = {
+        maintainAspectRatio: false, // 부모 크기에 맞춰 resize
+        tooltips: {
+            enabled: true,
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    const label = data.labels[tooltipItem.index];
+                    const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    return `${label}: ${value}`;
+                }
+            }
+        }, 
+        scales: {
+            x: {
+                ticks: {
+                    //minRotation: 90, // 레이블을 90도 회전
+                    autoSkip: true,
+                    maxTicksLimit: 20 // 차트에 표시될 x축 레이블의 최대 개수를 제한
+                }
+            }
+        }
+    }
+
     const [id, setId] = useState("");
     const [isAdmin, setIsAdmin] = useState("");
     const [selectBname, setSelectBname] = useState("");
 
+    const [chartData, setChartData] = useState(null);
     const [buildingInfo, setBuildingInfo] = useState([{
         name : "",
         powerData : [{
             datetime : null,
-            amounts : 0
+            amount : 0
         }],
         elecBill : 0
     }]);
-
     const [selectedBuilding, setSelectedBuilding] = useState({
         name : "",
         powerData : [{
             datetime : null,
-            amounts : 0
+            amount : 0
         }],
         elecBill : 0
     });
@@ -37,12 +64,25 @@ export const RetrieveUser = () => {
     const location = useLocation();
 
     useEffect(() => {
-        axios.get('http://15.164.130.210:8080/view/user')
+        if (location.state) {
+            setId(location.state.id);
+            setIsAdmin(location.state.isAdmin);
+        }
+    }, [location.state]);
+
+    useEffect(() => {
+        console.log(id);
+        console.log(location.state.id);
+        axios.post('http://15.164.130.210:8080/view/user', {
+            id : location.state.id,
+        }, {
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
           if (response.status === 200) {
             const data = response.data;
-            setBuildingInfo(response.data.BuildingInfo);
-            setSelectBname(response.data.BuildingInfo[0].name);
+            setBuildingInfo(response.data);
+            setSelectBname(response.data[0].name);
           } else {
             throw new Error('Failed to load data');
           }
@@ -54,11 +94,40 @@ export const RetrieveUser = () => {
     }, []);
 
     useEffect(() => {
-        if (location.state) {
-            setId(location.state.id);
-            setIsAdmin(location.state.isAdmin);
-        }
-    }, [location.state]);
+        console.log(selectedBuilding);
+
+        const dataByDate = selectedBuilding.powerData?.reduce((acc, item) => {
+            const date = new Date(item.dateTime).toLocaleDateString();
+            if (!acc[date]) {
+                acc[date] = item.amount;
+            } else {
+                acc[date] += item.amount;
+            }
+            return acc;
+        }, {});
+    
+        const dateTimeArray = Object.keys(dataByDate);
+        const amountArray = Object.values(dataByDate);
+
+        console.log(dateTimeArray);
+        console.log(amountArray);
+
+        setChartData({
+          labels: dateTimeArray,
+          datasets: [
+            {
+              data: amountArray,
+              fill: false,
+              backgroundColor: 'rgb(75, 192, 192)',
+              borderColor: 'rgba(75, 192, 192, 0.2)',
+            },
+          ],
+        });
+    }, [selectedBuilding, selectBname]);  
+
+    useEffect(() => {
+        setSelectedBuilding(buildingInfo.find(info => info.name === selectBname) || {});
+    }, [selectBname, buildingInfo]);
 
     const gotoRegister = () => {
         navigate("/register", { state: { id : id, isAdmin : isAdmin }});
@@ -78,8 +147,9 @@ export const RetrieveUser = () => {
     }
 
     const handleLogout = () => {
-
-        axios.post('localhost:8080/sign-out')
+        axios.post('http://15.164.130.210:8080/sign-out',{
+            withCredentials: true  // 쿠키 포함
+        })
         .then(response => {
             if (response.status === 200) {
                 navigate("/");
@@ -94,27 +164,12 @@ export const RetrieveUser = () => {
         
     };
 
-    useEffect(() => {
-        setSelectedBuilding(buildingInfo.find(info => info.name === selectBname) || {});
-    }, [selectBname, buildingInfo]);
-    
     const handleSelect = (value) => {
         setSelectBname(value);
     };
-    
-    const data = {
-        labels: selectedBuilding.powerData?.datetime,
-        datasets: [
-            {
-                label: selectBname,
-                data: selectedBuilding.powerData?.amounts,
-                fill: false,
-                backgroundColor: 'rgb(75, 192, 192)',
-                borderColor: 'rgba(75, 192, 192, 0.2)',
-            },
-        ],
-    };
-    
+
+    console.log(buildingInfo);
+    console.log(selectedBuilding);
 
     return (
         <div className="retrieve-user">
@@ -123,7 +178,7 @@ export const RetrieveUser = () => {
             <div className="overlap-group">
                 <div className="topmenu">
                 <div className="div">
-                    <div className="text-wrapper">{id}님</div>
+                    <div className="text-wrapper">{id + " "}님</div>
                     <div className="logout-button" onClick={handleLogout}>로그아웃</div>
                     <TopmenuLine className="topmenu-line" />
                     <UserImg className="user-img" />
@@ -154,7 +209,7 @@ export const RetrieveUser = () => {
                     <div className="pred-graph-text">전력 수요 그래프</div>
                 </div>
                 <div className="pred-graph-box">
-                    <Line data={data} />
+                    {chartData && <Line data={chartData} options={option} className="line-graph"/>}
                 </div>
             </div>
             <p className="expect-fee-text">

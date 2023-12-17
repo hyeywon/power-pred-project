@@ -202,11 +202,12 @@
     border: 1px solid;
     border-color: #d2d3e2;
     border-radius: 30px;
-    height: 359px;
+    height: 319px;
     left: 1026px;
     position: absolute;
     top: 387px;
-    width: 585px;
+    width: 545px;
+    padding : 20px;
   }
   
   .retrieve-admin .download-file-table {
@@ -214,11 +215,12 @@
     border: 1px solid;
     border-color: #d2d3e2;
     border-radius: 30px;
-    height: 359px;
+    height: 319px;
     left: 383px;
     position: absolute;
     top: 387px;
-    width: 585px;
+    width: 545px;
+    padding:  20px;
   }
   
   .retrieve-admin .download-button {
