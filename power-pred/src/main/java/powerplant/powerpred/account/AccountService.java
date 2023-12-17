@@ -45,7 +45,8 @@ public class AccountService {
         } catch (IllegalStateException e) {
             return "";
         }
-        session.setAttribute("account", account);
+        session.setAttribute("id", account.getId());
+        session.setAttribute("isAdmin", account.getIsAdmin());
         return account.getId();
     }
 

@@ -1,5 +1,6 @@
 package powerplant.powerpred.account;
 
+import java.util.HashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,9 @@ public class AccountController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<Account> signIn(@RequestBody String id, @RequestBody String pw) {
-        Account account = accountService.checkAdmin(id, pw);
+    public ResponseEntity<Account> signIn(@RequestBody HashMap<Object, Object> acc) {
+        log.info("Sign in");
+        Account account = accountService.checkAdmin((String) acc.get("id"), (String) acc.get("pw"));
 
         log.info("SIGN IN: " + account.toString());
         if (accountService.signIn(account).equals(account.getId())) {
