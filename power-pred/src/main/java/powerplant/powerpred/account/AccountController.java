@@ -27,11 +27,10 @@ public class AccountController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<Account> signIn(@RequestBody HashMap<Object, Object> acc) {
-        log.info("Sign in");
         Account account = accountService.checkAdmin((String) acc.get("id"), (String) acc.get("pw"));
-
         log.info("SIGN IN: " + account.toString());
-        if (accountService.signIn(account).equals(account.getId())) {
+
+        if (accountService.signIn(account).getId().equals(account.getId())) {
             return ResponseEntity.ok(account);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(account);
@@ -39,7 +38,7 @@ public class AccountController {
 
     @PostMapping("/sign-out")
     public ResponseEntity<Void> signOut() {
-        accountService.signOut();
+        log.info("Sign out");
         return ResponseEntity.ok().build();
     }
 }

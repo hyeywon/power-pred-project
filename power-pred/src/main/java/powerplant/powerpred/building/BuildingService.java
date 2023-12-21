@@ -1,9 +1,9 @@
 package powerplant.powerpred.building;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import java.sql.Blob;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.sql.rowset.serial.SerialBlob;
 import lombok.RequiredArgsConstructor;
@@ -23,19 +23,18 @@ public class BuildingService {
 
     private final BuildingRepository buildingRepository;
     private final PowerRepository powerRepository;
-    private final HttpSession session;
-    private static long sequence = 0L;
+    private static long sequence;
 
     /**
      * 데이터 업로드 :: 건물 정보 저장
      */
     @Transactional
-    public Long upload(String buildingName, MultipartFile csv) {
+    public Long upload(String buildingName, MultipartFile csv, String id, boolean isAdmin) {
 
-        if ((Boolean) session.getAttribute("isAdmin")) {
+        if (isAdmin) {
             Building findBuilding = buildingRepository.findByName(buildingName);
             findBuilding.setTrained(true);
-            findBuilding.setAdminID((String) session.getAttribute("id"));
+            findBuilding.setAdminID(id);
 
             return findBuilding.getId();
         }
@@ -45,7 +44,7 @@ public class BuildingService {
             building = new Building(
                     ++sequence,
                     buildingName,
-                    (String) session.getAttribute("id"),
+                    id,
                     false,
                     null,
                     new SerialBlob(csv.getBytes())
@@ -61,13 +60,18 @@ public class BuildingService {
     /**
      * 데이터 조회 :: Administrator
      */
-    public AdminFile adminView() {
-        log.info("is admin "  +  session.getAttribute("isAdmin"));
-        List<Blob> trainData = buildingRepository.findByTrained(false).stream()
-                .map(Building::getCsvFile)
-                .toList();
+    public AdminFile adminView(String id) {
+        List<String> trainData = buildingRepository.findByTrained(false).stream()
+                .map(building -> {
+                    try (InputStream inputStream = building.getCsvFile().getBinaryStream()) {
+                        return Base64.getEncoder().encodeToString(inputStream.readAllBytes());
+                    } catch (Exception e) {
+                        log.info(e.getMessage());
+                    }
+                    return null;
+                }).toList();
 
-        List<String> predictions = buildingRepository.findByAdminID((String) session.getAttribute("id")).stream()
+        List<String> predictions = buildingRepository.findByAdminID(id).stream()
                 .map(Building::getName)
                 .toList();
 
@@ -77,10 +81,11 @@ public class BuildingService {
     /**
      * 데이터 조회 :: User
      */
-    public List<BuildingInfo> userView() {
+    public List<BuildingInfo> userView(String id) {
         List<BuildingInfo> buildingInfos = new ArrayList<>();
+        log.info("CURRENT USER ID: " + id);
 
-        for (Building building : buildingRepository.findByUseridAndTrained((String) session.getAttribute("id"), true)) {
+        for (Building building : buildingRepository.findByUseridAndTrained(id, true)) {
             List<Power> powers = powerRepository.findByBuildingID(building.getId());
 
             double totalPower = powers.stream()

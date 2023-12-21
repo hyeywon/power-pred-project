@@ -2,14 +2,15 @@ package powerplant.powerpred.account;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final HttpSession session;
 
     /**
      * 회원가입
@@ -39,15 +40,13 @@ public class AccountService {
         return new Account(id, pw, isAdmin);
     }
 
-    public String signIn(Account account) {
+    public Account signIn(Account account) {
         try {
             validateAccount(account);
         } catch (IllegalStateException e) {
-            return "";
+            log.info(e.getMessage());
         }
-        session.setAttribute("id", account.getId());
-        session.setAttribute("isAdmin", account.getIsAdmin());
-        return account.getId();
+        return account;
     }
 
     private void validateAccount(Account account) {
@@ -71,12 +70,5 @@ public class AccountService {
                             throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
                         }
                         );
-    }
-
-    /**
-     * 로그아웃
-     */
-    public void signOut() {
-        session.invalidate();
     }
 }
